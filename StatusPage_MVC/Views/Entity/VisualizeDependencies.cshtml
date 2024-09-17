@@ -1,0 +1,90 @@
+﻿@model IEnumerable<StatusPage_MVC.Models.Entity>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entity Dependency Visualization</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">Select Entity</h2>
+        <form id="entityForm">
+            <div class="form-group">
+                <label for="entitySelect">Entity</label>
+                <select class="form-control" id="entitySelect" name="entity_id" required>
+                    @foreach (var entity in Model)
+                    {
+                        <option value="@entity.Id">@entity.Name</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Show Dependencies</button>
+        </form>
+        <div id="graph" class="mt-5"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('entityForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const entityId = document.getElementById('entitySelect').value;
+                fetch(`/Entity/GetEntityWithDependencies/${entityId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        visualizeDependencies(data);
+                    });
+            });
+        });
+
+        function visualizeDependencies(data) {
+            const width = 800;
+            const height = 600;
+            const margin = { top: 50, right: 20, bottom: 20, left: 20 };
+
+            // Clear existing SVG
+            d3.select('#graph').selectAll('*').remove();
+
+            const svg = d3.select('#graph').append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            const root = d3.hierarchy(data, d => d.dependencies);
+            const treeLayout = d3.tree().size([width, height - 200]);
+            treeLayout(root);
+
+            svg.selectAll('line')
+                .data(root.links())
+                .enter()
+                .append('line')
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y)
+                .attr('stroke', 'black');
+
+            svg.selectAll('circle')
+                .data(root.descendants())
+                .enter()
+                .append('circle')
+                .attr('cx', d => d.x)
+                .attr('cy', d => d.y)
+                .attr('r', 5)
+                .attr('fill', 'red');
+
+            svg.selectAll('text')
+                .data(root.descendants())
+                .enter()
+                .append('text')
+                .attr('x', d => d.x + 10)
+                .attr('y', d => d.y)
+                .text(d => d.data.name);
+        }
+    </script>
+</body>
+</html>

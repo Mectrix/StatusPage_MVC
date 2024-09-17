@@ -1,0 +1,27 @@
+﻿@model StatusPage_MVC.Models.Entity
+
+<h2>Create New Entity</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CMDB"></label>
+        <input asp-for="CMDB" class="form-control" />
+        <span asp-validation-for="CMDB" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Type"></label>
+        <input asp-for="Type" class="form-control" />
+        <span asp-validation-for="Type" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="LastChecked"></label>
+        <input asp-for="LastChecked" class="form-control" type="datetime-local" />
+        <span asp-validation-for="LastChecked" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

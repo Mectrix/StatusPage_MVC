@@ -26,6 +26,22 @@ namespace StatusPage_MVC.Controllers
             return View(entities);
         }
 
+
+
+        public async Task<IActionResult> List()
+        {
+            var entities = await _context.Entities.Find(_ => true).ToListAsync();
+            return View(entities);
+        }
+
+
+
+
+
+
+
+
+
         public ActionResult Details(string id)
         {
             var entity = _context.Entities.Find(e => e.Id == id).FirstOrDefault();
@@ -42,6 +58,8 @@ namespace StatusPage_MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                entity.Id = ObjectId.GenerateNewId().ToString();
+                entity.LastChecked = DateTime.Now;
                 _context.Entities.InsertOne(entity);
                 return RedirectToAction("Index");
             }
@@ -157,6 +175,20 @@ namespace StatusPage_MVC.Controllers
             }
 
             return View(viewModel);
+        }
+
+
+        public ActionResult VisualizeDependencies()
+        {
+            var entities = _context.Entities.Find(new BsonDocument()).ToList();
+            return View(entities);
+        }
+
+        [HttpGet]
+        public JsonResult GetEntityWithDependencies(string id)
+        {
+            var entity = _context.Entities.Find(e => e.Id == id).FirstOrDefault();
+            return Json(entity);
         }
 
 
