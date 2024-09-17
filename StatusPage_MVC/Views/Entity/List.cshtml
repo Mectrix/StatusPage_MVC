@@ -1,109 +1,154 @@
 ﻿@model List<Entity>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entities</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <style>
-        body {
-            padding: 32px;
-            background: #ddd;
-            font-family: 'Roboto', sans-serif;
-        }
-        h1 {
-            color: rgba(255,255,255,.95);
-            text-shadow: 0px 12px 16px rgba(0,0,0,.2);
-            margin: 100px auto;
-        }
-        #portfolio {
-            background: #fafafa;
-            padding: 8px 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-        .card {
-            flex: 1 1 calc(100% - 32px);
-            margin: 16px;
-            color: rgba(0,0,0,.87);
-            box-shadow: 2px 2px 8px rgba(0,0,0,.05);
-        }
-        .card-title {
-            display: flex;
-            justify-content: flex-end;
-            padding: 16px;
-            font-weight: 300;
-        }
-        .card-data {
-            display: flex;
-            justify-content: flex-end;
-            padding: 16px 16px 0 0;
-            font-size: 1.5rem;
-            font-weight: 300;
-            width: 90%;
-        }
-        .card-hint {
-            display: flex;
-            padding: 0 0 8px 8px;
-            font-size: 1.3rem;
-            color: red;
-            margin-right: 8px;
-            font-size: .9rem;
-            font-weight: 300;
-        }
-        .card-icon {
-            display: flex;
-            position: absolute;
-            top: -20px;
-            left: 12px;
-            background: linear-gradient(60deg, #ffa726, #EF6C00);
-            color: white;
-            width: 90px;
-            height: 90px;
-            box-shadow: 2px 2px 16px rgba(0,0,0,.15);
-            align-items: center;
-            justify-content: center;
-            border-radius: 25%;
-            font-size: 4rem;
-        }
-        #storageCard .card-icon {
-            background: linear-gradient(60deg, #5E35B1, #039BE5);
-        }
-        #loveCard .card-icon {
-            background: linear-gradient(60deg, #F50057, #FF8A80);
-        }
-        #pizzaCard .card-icon {
-            background: linear-gradient(60deg, #fb8c00, #FFCA29);
-        }
-        #gameCard .card-icon {
-            background: linear-gradient(60deg, #43A047, #FFEB3B);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1 id="page-title" class="text-center">Entities</h1>
-        <div id="portfolio">
-            @foreach (var entity in Model)
-            {
-                <div class="card">
-                    <div class="card-title">@entity.Name</div>
-                    <div class="card-icon">
-                        <i class="material-icons">info</i>
-                    </div>
-                    <div class="card-data">Type: @entity.Type</div>
-                    <hr>
-                    <div class="card-hint">
-                        <i class="material-icons">update</i>
-                        <a href="#">Last checked: @entity.LastChecked</a>
-                    </div>
-                </div>
-            }
+@{
+    Layout = "~/Views/Shared/_LayoutFullPage.cshtml";
+    ViewBag.Title = "Entities";
+}
+
+<h1 id="page-title" class="text-center">Entities</h1>
+ 
+<div id="portfolio">
+    @foreach (var entity in Model)
+    {
+        <div class="card">
+            <div class="card-title">@entity.Name</div>
+            <div class="card-icon">
+                <i class="material-icons">hexagon</i>
+            </div>
+            <div class="card-data">Type: @entity.Type</div>
+            <hr>
+            <div class="card-hint">
+                <i class="material-icons">update</i>
+                <a href="#">Last checked: @entity.LastChecked</a>
+            </div>
         </div>
-    </div>
-</body>
-</html>
+    }
+</div>
+ 
+
+<style>
+    html, body {
+        
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+        background: #ddd;
+        display: flex;
+        flex-direction: column;
+/*         align-items: center;
+        justify-content: center; */
+    }
+
+    h1 {
+        color: rgba(255,255,255,.95);
+        text-shadow: 0px 12px 16px rgba(0,0,0,.2);
+        margin: 20px 0;
+    }
+
+    .container{
+        width:auto;
+        display: flex;
+        background-color:transparent;
+    }
+
+    #portfolio {
+        background: #fafafa;
+        padding: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+    }
+
+    .card {
+        flex: 1 1 calc(25% - 32px);
+        margin: 16px;
+        color: rgba(0,0,0,.87);
+        box-shadow: 2px 2px 8px rgba(0,0,0,.05);
+        position: relative;
+        max-width: 250px;
+        min-width: 250px;
+    }
+
+    .card-title {
+        display: flex;
+        justify-content: flex-end;
+        padding: 16px;
+        font-weight: 300;
+    }
+
+    .card-data {
+        display: flex;
+        justify-content: flex-end;
+        padding: 16px 16px 0 0;
+        font-size: 1.5rem;
+        font-weight: 300;
+        width: 90%;
+    }
+
+    .card-hint {
+        display: flex;
+        padding: 0 0 8px 8px;
+        font-size: 1.3rem;
+        color: red;
+        margin-right: 8px;
+        font-size: .9rem;
+        font-weight: 300;
+    }
+
+    .material-icons{
+        fill: aqua;
+        font-size: 45pt;
+        font-synthesis-weight: 600;
+        font-weight: 600;
+        color:green;
+        outline-color:yellow;
+        outline-width:12px;
+        outline:thin;
+    }
+    
+    
+ 
+
+
+
+    .card-icon {
+        display: flex;
+        position: absolute;
+        top: -20px;
+        left: 12px;
+        background: linear-gradient(60deg, #ffa726, #EF6C00);
+        color: white;
+        width: 90px;
+        height: 90px;
+        box-shadow: 2px 2px 16px rgba(0,0,0,.15);
+        align-items: center;
+        justify-content: center;
+        border-radius: 25%;
+        font-size: 4rem;
+    }
+
+    #storageCard .card-icon {
+        background: linear-gradient(60deg, #5E35B1, #039BE5);
+    }
+
+    #loveCard .card-icon {
+        background: linear-gradient(60deg, #F50057, #FF8A80);
+    }
+
+    #pizzaCard .card-icon {
+        background: linear-gradient(60deg, #fb8c00, #FFCA29);
+    }
+
+    #gameCard .card-icon {
+        background: linear-gradient(60deg, #43A047, #FFEB3B);
+    }
+</style>
+
